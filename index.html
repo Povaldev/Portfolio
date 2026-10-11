@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pablo Valderas Doblas | Portfolio & CV</title>
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --secondary: #8b5cf6;
+      --accent: #06b6d4;
+      --bg-dark: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text);
+      padding: 20px 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .portfolio-wrapper {
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* GLASS CARD COMMON STYLE */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 1. HERO SECTION */
+    .hero-card {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .avatar-wrapper { position: relative; flex-shrink: 0; }
+    .avatar-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+      z-index: -1;
+      animation: spin 6s linear infinite;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    .avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--bg-dark);
+      display: block;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .subtitle { font-size: 1.1rem; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    .bio { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+
+    .cta-group { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px;
+      border-radius: 10px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: 0.25s;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; }
+    .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text); border: 1px solid var(--border); }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    /* TITULOS DE SECCION */
+    .section-title {
+      font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+      color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 10px;
+    }
+
+    /* 2. GRID INFO PERSONAL & IDIOMAS */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .info-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      border-radius: 14px;
+    }
+
+    .info-item h4 { font-size: 0.85rem; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+    .info-item p, .info-item ul { font-size: 0.95rem; color: var(--text); list-style: none; }
+    .info-item li { margin-bottom: 4px; }
+
+    /* 3. EXPERIENCIA & FORMACION TIMELINE */
+    .timeline-item {
+      position: relative;
+      padding-left: 24px;
+      border-left: 2px solid var(--primary);
+      margin-bottom: 24px;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px;
+      border-radius: 50%; background: var(--accent);
+    }
+
+    .timeline-item h3 { font-size: 1.1rem; color: #fff; font-weight: 700; }
+    .timeline-item .inst { font-size: 0.85rem; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
+    .timeline-item ul { padding-left: 18px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+    .timeline-item li { margin-bottom: 6px; }
+
+    /* 4. HERRAMIENTAS & SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .skill-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      transition: 0.3s ease;
+    }
+    .skill-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+
+    .skill-header { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; }
+    .progress-bar { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 10px; }
+
+    /* SOFT SKILLS TAGS */
+    .tags-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .tag {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 650px) {
+      .hero-card { flex-direction: column; text-align: center; }
+      .cta-group { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="portfolio-wrapper">
+
+    <!-- HERO SECTION -->
+    <div class="glass-card hero-card">
+      <div class="avatar-wrapper">
+        <img class="avatar" src="PabloValderasCurriculum.jpg" onerror="this.src='"Pablo Valderas Doblas">
+      </div>
+      <div class="hero-content">
+        <span class="badge">BUSCO OPORTUNIDADES EN DESARROLLO DE SOFTWARE</span>
+        <h1>Pablo Valderas Doblas</h1>
+        <div class="subtitle">Estudiante de Programación & Desarrollador Web</div>
+        <p class="bio">
+          Muy resolutivo en cuanto a cuestiones y complejidades técnicas en la programación. Amplio manejo de lenguajes como Java, JavaScript, PHP y SQL. Orientado al desarrollo y gestión de software en todas sus fases[cite: 1].
+        </p>
+        <div class="cta-group">
+          <a href="https://github.com/Povaldev" target="_blank" class="btn btn-primary">GitHub</a>
+          <a href="https://www.linkedin.com/in/pablo-valderas-doblas-908958329/" target="_blank" class="btn btn-secondary">LinkedIn</a>
+          <a href="mailto:pablovalderasdoblas.dev@gmail.com" class="btn btn-secondary">pablovalderasdoblas.dev@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFORMACIÓN ADICIONAL E IDIOMAS -->
+    <div class="glass-card">
+      <h2 class="section-title">Información General & Idiomas</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <h4>Ubicación & Movilidad</h4>
+          <p>📍 Torredonjimeno (Jaén)</p>
+          <p>🚗 Carnet de conducir</p>
+          <p>✈️ Disponibilidad para viajar</p>
+        </div>
+        <div class="info-item">
+          <h4>Idiomas</h4>
+          <ul>
+            <li>🇬🇧 Inglés[cite: 1]</li>
+            <li>🇫🇷 Francés[cite: 1]</li>
+          </ul>
+        </div>
+        <div class="info-item">
+          <h4>Contacto Directo</h4>
+          <p>📞 <a href="tel:622958783" style="color:var(--text); text-decoration:none;">622958783</a>[cite: 1]</p>
+          <p>✉️ <a href="mailto:pablovalderasdoblas.dev@gmail.com" style="color:var(--text); text-decoration:none;">Email directo</a>[cite: 1]</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMACIÓN -->
+    <div class="glass-card">
+      <h2 class="section-title">🎓 Formación Académica</h2>
+      <div class="timeline-item">
+        <h3>CFGS DESARROLLO DE APLICACIONES WEB (DAW)</h3>
+        <div class="inst">I.E.S. Fernando III — Martos (Jaén) | 2027[cite: 1]</div>
+        <ul>
+          <li>Configuración, administración y explotación de sistemas informáticos[cite: 1].</li>
+          <li>Desarrollo de aplicaciones web orientadas a bases de datos con ORM y patrones DAO[cite: 1].</li>
+          <li>Implementación de técnicas avanzadas de seguridad en servicios y aplicaciones[cite: 1].</li>
+          <li>Gestión de servidores web y entornos de bases de datos para el despliegue de aplicaciones[cite: 1].</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EXPERIENCIA LABORAL -->
+    <div class="glass-card">
+      <h2 class="section-title">💼 Experiencia Laboral</h2>
+      <div class="timeline-item">
+        <h3>FORMACIÓN DUAL — ZONATEK MARTOS</h3>
+        <div class="inst">Prácticas de primer curso de DAW (2026)[cite: 1]</div>
+        <ul>
+          <li>Desarrollador Backend enfocado en Java[cite: 1].</li>
+          <li>Asistencia técnica en taller de reparación de dispositivos electrónicos[cite: 1].</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- HERRAMIENTAS Y DOMINIO TECNICO -->
+    <div class="glass-card">
+      <h2 class="section-title">⚙️ Dominio Técnico de Herramientas</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-header"><span>HTML & CSS</span><span>80%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header"><span>PHP & Laravel</span><span>70%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 70%;"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header"><span>Java</span><span>65%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header"><span>JavaScript</span><span>50%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 50%;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOFT SKILLS -->
+    <div class="glass-card">
+      <h2 class="section-title">💡 Habilidades Personales (Soft Skills)</h2>
+      <div class="tags-container">
+        <span class="tag">🧩 Resolución analítica de problemas</span>
+        <span class="tag">👥 Gran trabajo en equipo</span>
+        <span class="tag">🤝 Trato amable y atento</span>
+        <span class="tag">⚡ Adaptabilidad técnica</span>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
