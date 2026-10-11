@@ -184,6 +184,49 @@
       .hero-card { flex-direction: column; text-align: center; }
       .cta-group { justify-content: center; }
     }
+
+    /* Estilos de la notificación flotante (Toast) */
+    .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(30, 41, 59, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #f8fafc;
+    padding: 14px 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    }
+
+    .toast-icon {
+    font-size: 1.4rem;
+    }
+
+    .toast-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #60a5fa;
+    }
+
+    .toast-msg {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    }
   </style>
 </head>
 <body>
@@ -193,7 +236,7 @@
     <!-- HERO SECTION -->
     <div class="glass-card hero-card">
       <div class="avatar-wrapper">
-        <img class="avatar" src="https://raw.githubusercontent.com/Povaldev/Portfolio/refs/heads/master/img/PabloValderasCurriculum.jpg?token=GHSAT0AAAAAAELK6EULM6UAKAS5MXMEBLT22WLRGOA">
+        <img class="avatar" src="https://raw.githubusercontent.com/Povaldev/Portfolio/refs/heads/master/img/PabloValderasCurriculum.jpg?token=GHSAT0AAAAAAELK6EUKFKBMFZCBTYWBHB662WLROJQ">
       </div>
       <div class="hero-content">
         <span class="badge">BUSCO OPORTUNIDADES EN DESARROLLO DE SOFTWARE</span>
@@ -206,6 +249,13 @@
           <a href="https://github.com/Povaldev" target="_blank" class="btn btn-primary">GitHub</a>
           <a href="https://www.linkedin.com/in/pablo-valderas-doblas-908958329/" target="_blank" class="btn btn-secondary">LinkedIn</a>
           <a href="mailto:pablovalderasdoblas.dev@gmail.com" class="btn btn-secondary">pablovalderasdoblas.dev@gmail.com</a>
+        </div>
+        <div id="toast-notification" class="toast">
+        <span class="toast-icon">📋</span>
+        <div>
+            <div class="toast-title">¡Correo copiado!</div>
+            <div class="toast-msg">pablovalderasdoblas.dev@gmail.com</div>
+        </div>
         </div>
       </div>
     </div>
@@ -301,3 +351,43 @@
 
 </body>
 </html>
+
+<script>
+  document.addEventListener('click', function(event) {
+    // Comprobamos si el elemento clicado es un enlace de correo (empieza por mailto:)
+    const emailLink = event.target.closest('a[href^="mailto:"]');
+    
+    if (emailLink) {
+      event.preventDefault(); // Evitamos que abra el cliente de correo por defecto
+      
+      const email = emailLink.getAttribute('href').replace('mailto:', '');
+      
+      // Copiar al portapapeles usando la API moderna
+      navigator.clipboard.writeText(email).then(() => {
+        showToast();
+      }).catch(err => {
+        console.error('Error al copiar al portapapeles: ', err);
+      });
+    }
+  });
+
+  function showToast() {
+    const toast = document.getElementById('toast-notification');
+    if (!toast) return;
+
+    // Si ya hay una animación activa, la reiniciamos
+    toast.classList.remove('show');
+    
+    // Forzamos un reflow para reiniciar la animación CSS
+    void toast.offsetWidth;
+
+    // Mostramos la notificación
+    toast.classList.add('show');
+
+    // Ocultar automáticamente al cabo de 3 segundos (3000ms)
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+</script>
